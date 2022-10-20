@@ -34,7 +34,7 @@ Crafty.defineScene("StartMenu", function() {
     Crafty.background('#FFFFFF url(assets/background1.jpg)');
     Crafty.e("2D, DOM, Text")
     .attr({ w:200, h:20, x: 200, y: 120 })
-    .text("Destroy Block")
+    .text("Block Destroyer")
     .textAlign("center")
     .textFont({
         size: '20px',
@@ -146,9 +146,10 @@ Crafty.defineScene("Game", function() {
     //Paddles
     Crafty.e("Paddle, 2D, DOM, Color, Multiway")
     .color('#9baaf4')
-    .attr({ x: 250, y: 360, w: 100, h: 10 })
+    .attr({ x: 250, y: 360, w: 100, h: 15 })
     .multiway(200, { A: -180, D: 0 });
     blocks.forEach((block) => {
+        block.hits = Math.ceil(Math.random() * 3);
         Crafty.e(`Block, 2D, DOM, Color, Collision`)
         .attr({ x: block.x, y: block.y, w: block.w, h: block.h })
         .bind('UpdateFrame', function () {
@@ -176,7 +177,7 @@ Crafty.defineScene("Game", function() {
     //Ball
     Crafty.e("Ball, 2D, DOM, Color, Collision")
     .color('#ffc500')
-    .attr({ x: 300, y: 150, w: 10, h: 10,
+    .attr({ x: 300, y: 150, w: 15, h: 15,
             dX: 2,
             dY: -2 })
     .bind('UpdateFrame', function () {
