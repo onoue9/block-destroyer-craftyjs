@@ -143,22 +143,26 @@ Crafty.defineScene("Win Game", function() {
 
 Crafty.defineScene("Game", function() {
     Crafty.background('#FFFFFF url(assets/background2.jpg)');
+
     //Paddles
     Crafty.e("Paddle, 2D, DOM, Color, Multiway")
-    .color('#9baaf4')
-    .attr({ x: 250, y: 360, w: 100, h: 15 })
+    .color('#4deeea')
+    .attr({ x: 250, y: 360, w: 100, h: 10 })
     .multiway(200, { A: -180, D: 0 });
+
+    //Blocks
     blocks.forEach((block) => {
         block.hits = Math.ceil(Math.random() * 3);
-        Crafty.e(`Block, 2D, DOM, Color, Collision`)
+        Crafty.e("Block, 2D, DOM, Color, Collision")
+        //Crafty.e(`Block, 2D, DOM, Color, Collision`)
         .attr({ x: block.x, y: block.y, w: block.w, h: block.h })
         .bind('UpdateFrame', function () {
             if (block.hits === 3)
-                this.color('#ff1493')
+                this.color('#f000ff')
             if (block.hits === 2)
-                this.color('#009fff')
+                this.color('#001eff')
             if (block.hits === 1)
-                this.color('#00ff44')
+                this.color('#74ee15')
         })
         .onHit('Ball', function() {
             Crafty("Score").each(function () {
@@ -176,7 +180,7 @@ Crafty.defineScene("Game", function() {
 
     //Ball
     Crafty.e("Ball, 2D, DOM, Color, Collision")
-    .color('#ffc500')
+    .color('#ffe700')
     .attr({ x: 300, y: 150, w: 15, h: 15,
             dX: 2,
             dY: -2 })
