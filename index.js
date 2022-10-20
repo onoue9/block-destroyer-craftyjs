@@ -151,6 +151,11 @@ Crafty.defineScene("Game", function() {
     .multiway(200, { A: -180, D: 0 });
 
     //Blocks
+    Crafty.audio.add('blockHit', 'assets/Blockhit.wav');
+    Crafty.audio.add('paddleHit', 'assets/Paddlehit.wav');
+    Crafty.audio.add('damage', 'assets/Damage.wav');
+    Crafty.audio.add('blockbreak', 'assets/Blockbreak.wav');
+
     blocks.forEach((block) => {
         block.hits = Math.ceil(Math.random() * 3);
         Crafty.e("Block, 2D, DOM, Color, Collision")
@@ -167,9 +172,11 @@ Crafty.defineScene("Game", function() {
         .onHit('Ball', function() {
             Crafty("Score").each(function () {
                 this.text(`${this.scores += 10} Scores`)
+                Crafty.audio.play('blockHit', 1, 0.5);
             })
             block.hits -= 1;
             if (block.hits <= 0) {
+                Crafty.audio.play('blockbreak', 1, 0.5);
                 this.destroy();
             }
             if (Crafty("Block").get().length <= 0)
@@ -192,6 +199,7 @@ Crafty.defineScene("Game", function() {
         if (this.y >= 390) {
             Crafty("Life").each(function () {
                 this.text(--this.lives + " Lives")
+                Crafty.audio.play('damage', 1, 0.5);
                 if (this.lives <= 0) {
                     Crafty.scene("GameOver");
                 }
@@ -213,6 +221,7 @@ Crafty.defineScene("Game", function() {
         this.y += this.dY;
     })
     .onHit('Paddle', function () {
+        Crafty.audio.play('paddleHit', 1, 0.5);
         this.dY *= -1.1;
         if (this.dY >= 10) {
             this.dY = 10;
